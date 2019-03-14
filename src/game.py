@@ -1,9 +1,7 @@
 import pygame
 
 from entity import Entity, is_collision
-
-WINDOW_WIDTH = 800
-WINDOW_HEIGHT = 600
+from main import WINDOW_HEIGHT, WINDOW_WIDTH
 
 BLACK = (0, 0, 0)
 GREY = (142, 142, 142)
@@ -27,6 +25,14 @@ def render_game(screen, entities):
     for entity in entities:
         entity.render(screen)
     pygame.display.flip()
+
+
+def update_ball(ball, player):
+    if not ball.velocity.is_moving():
+        ball.x = player.x + player.width / 2 - ball.width / 2
+        ball.y = player.y - player.height
+    else:
+        ball.move(ball.velocity.x, ball.velocity.y)
 
 
 def handle_player_collisions(player, walls):
