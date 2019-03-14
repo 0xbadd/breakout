@@ -4,7 +4,7 @@ import random
 import pygame
 
 from entity import Entity, is_collision
-from game import init_blocks
+from game import handle_player_collisions, init_blocks
 
 TITLE = "Breakout"
 
@@ -84,10 +84,7 @@ def main():
                 ball_velocity_x = BALL_VELOCITY_X * math.pow(-1, random.randint(1, 3))
                 ball_velocity_y = BALL_VELOCITY_Y
 
-        if player.x < left_wall.width:
-            player.x = left_wall.width
-        if player.x + player.width > right_wall.x:
-            player.x = right_wall.x - player.width
+        handle_player_collisions(player, walls)
 
         if ball_velocity_x == 0 and ball_velocity_y == 0:
             ball.x = player.x + player.width / 2 - ball.width / 2

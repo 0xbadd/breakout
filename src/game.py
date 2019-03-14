@@ -15,6 +15,16 @@ NUM_BLOCKS_Y = 6
 WALL_SIZE = 40
 
 
+def handle_player_collisions(player, walls):
+    left_wall = walls[0]
+    right_wall = walls[1]
+
+    if player.x < left_wall.width:
+        player.x = left_wall.width
+    if player.x + player.width > right_wall.x:
+        player.x = right_wall.x - player.width
+
+
 def init_blocks():
     blocks = []
     for row in range(0, NUM_BLOCKS_Y):
