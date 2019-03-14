@@ -44,6 +44,16 @@ def main():
     vel = PLAYER_VELOCITY
 
     player = Entity(PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT, RED)
+    walls = []
+    left_wall = Entity(0, 50, WALL_SIZE, WINDOW_HEIGHT - 80, GREY)
+    right_wall = Entity(
+        WINDOW_WIDTH - WALL_SIZE, 50, WALL_SIZE, WINDOW_HEIGHT - 80, GREY
+    )
+    top_wall = Entity(0, 50, WINDOW_WIDTH, WALL_SIZE, GREY)
+
+    walls.append(left_wall)
+    walls.append(right_wall)
+    walls.append(top_wall)
     blocks = []
     for row in range(0, NUM_BLOCKS_Y):
         for col in range(0, NUM_BLOCKS_X):
@@ -91,6 +101,8 @@ def main():
         player.render(screen)
         for block in blocks:
             block.render(screen)
+        for wall in walls:
+            wall.render(screen)
         pygame.display.flip()
 
         clock.tick(FPS)
