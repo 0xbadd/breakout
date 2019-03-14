@@ -13,6 +13,7 @@ from game import (
     update_ball,
     update_player,
 )
+from input_handlers import handle_keys
 from velocity import Velocity
 
 TITLE = "Breakout"
@@ -58,22 +59,22 @@ def main():
     running = True
     clock = pygame.time.Clock()
     while running:
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    running = False
-            elif event.type == pygame.QUIT:
-                running = False
-
         keys = pygame.key.get_pressed()
+        action = handle_keys(keys)
 
-        if keys[pygame.K_LEFT]:
-            player.velocity.x = -PLAYER_VELOCITY
-        elif keys[pygame.K_RIGHT]:
-            player.velocity.x = PLAYER_VELOCITY
+        move = action.get("move")
+        launch = action.get("launch")
+        quit = action.get("quit")
+
+        if quit:
+            running = False
+
+        if move:
+            player.velocity.x = move
         else:
             player.velocity.x = 0
-        if keys[pygame.K_SPACE] and not ball.velocity.is_moving():
+
+        if launch and not ball.velocity.is_moving():
             if keys[pygame.K_LEFT]:
                 ball.velocity.x = -BALL_VELOCITY_X
                 ball.velocity.y = BALL_VELOCITY_Y
