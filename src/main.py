@@ -1,3 +1,6 @@
+import math
+import random
+
 import pygame
 
 from entity import Entity
@@ -25,6 +28,8 @@ PLAYER_VELOCITY = 10
 BALL_SIZE = 20
 BALL_X = WINDOW_WIDTH / 2 - BALL_SIZE / 2
 BALL_Y = PLAYER_Y - BALL_SIZE
+BALL_VELOCITY_X = 5
+BALL_VELOCITY_Y = -10
 
 BLOCK_WIDTH = 80
 BLOCK_HEIGHT = 20
@@ -45,6 +50,8 @@ def main():
     player = Entity(PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT, RED)
 
     ball = Entity(BALL_X, BALL_Y, BALL_SIZE, BALL_SIZE, RED)
+    ball_velocity_x = 0
+    ball_velocity_y = 0
 
     walls = []
     left_wall = Entity(0, 50, WALL_SIZE, WINDOW_HEIGHT - 80, GREY)
@@ -100,11 +107,27 @@ def main():
             player.move(-PLAYER_VELOCITY, 0)
         if keys[pygame.K_RIGHT]:
             player.move(PLAYER_VELOCITY, 0)
+        if keys[pygame.K_SPACE] and ball_velocity_x == 0 and ball_velocity_y == 0:
+            if keys[pygame.K_LEFT]:
+                ball_velocity_x = -BALL_VELOCITY_X
+                ball_velocity_y = BALL_VELOCITY_Y
+            if keys[pygame.K_RIGHT]:
+                ball_velocity_x = BALL_VELOCITY_X
+                ball_velocity_y = BALL_VELOCITY_Y
+            else:
+                ball_velocity_x = BALL_VELOCITY_X * math.pow(-1, random.randint(1, 3))
+                ball_velocity_y = BALL_VELOCITY_Y
 
         if player.x < left_wall.width:
             player.x = left_wall.width
         if player.x + player.width > right_wall.x:
             player.x = right_wall.x - player.width
+
+        if ball_velocity_x == 0 and ball_velocity_y == 0:
+            ball.x = player.x + player.width / 2 - ball.width / 2
+            ball.y = player.y - player.height
+        else:
+            ball.move(ball_velocity_x, ball_velocity_y)
 
         screen.fill(BLACK)
         player.render(screen)
