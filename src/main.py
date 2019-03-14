@@ -11,6 +11,7 @@ from game import (
     init_walls,
     render_game,
     update_ball,
+    update_player,
 )
 from velocity import Velocity
 
@@ -43,7 +44,7 @@ def main():
     screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
     pygame.display.set_caption(TITLE)
 
-    player = Entity(PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT, RED)
+    player = Entity(PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT, RED, Velocity())
     ball = Entity(BALL_X, BALL_Y, BALL_SIZE, BALL_SIZE, RED, Velocity())
     walls = init_walls()
     blocks = init_blocks()
@@ -67,9 +68,11 @@ def main():
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_LEFT]:
-            player.move(-PLAYER_VELOCITY, 0)
-        if keys[pygame.K_RIGHT]:
-            player.move(PLAYER_VELOCITY, 0)
+            player.velocity.x = -PLAYER_VELOCITY
+        elif keys[pygame.K_RIGHT]:
+            player.velocity.x = PLAYER_VELOCITY
+        else:
+            player.velocity.x = 0
         if keys[pygame.K_SPACE] and not ball.velocity.is_moving():
             if keys[pygame.K_LEFT]:
                 ball.velocity.x = -BALL_VELOCITY_X
@@ -81,6 +84,7 @@ def main():
                 ball.velocity.x = BALL_VELOCITY_X * math.pow(-1, random.randint(1, 3))
                 ball.velocity.y = BALL_VELOCITY_Y
 
+        update_player(player)
         handle_player_collisions(player, walls)
         update_ball(ball, player)
         handle_ball_collisions(ball, player, walls)

@@ -18,9 +18,10 @@ class Entity:
             screen, self.color, pygame.Rect(self.x, self.y, self.width, self.height)
         )
 
-    def move(self, dx, dy):
-        self.x += dx
-        self.y += dy
+    def move(self):
+        if self.velocity:
+            self.x += self.velocity.x
+            self.y += self.velocity.y
 
     def get_bounding_box(self):
         return (self.x, self.y, self.width, self.height)
