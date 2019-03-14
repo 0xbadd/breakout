@@ -22,6 +22,10 @@ PLAYER_X = WINDOW_WIDTH / 2 - PLAYER_WIDTH / 2
 PLAYER_Y = 550
 PLAYER_VELOCITY = 10
 
+BALL_SIZE = 20
+BALL_X = WINDOW_WIDTH / 2 - BALL_SIZE / 2
+BALL_Y = PLAYER_Y - BALL_SIZE
+
 BLOCK_WIDTH = 80
 BLOCK_HEIGHT = 20
 NUM_BLOCKS_X = 9
@@ -44,6 +48,9 @@ def main():
     vel = PLAYER_VELOCITY
 
     player = Entity(PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT, RED)
+
+    ball = Entity(BALL_X, BALL_Y, BALL_SIZE, BALL_SIZE, RED)
+
     walls = []
     left_wall = Entity(0, 50, WALL_SIZE, WINDOW_HEIGHT - 80, GREY)
     right_wall = Entity(
@@ -99,6 +106,7 @@ def main():
 
         screen.fill(BLACK)
         player.render(screen)
+        ball.render(screen)
         for block in blocks:
             block.render(screen)
         for wall in walls:
