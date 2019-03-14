@@ -3,7 +3,7 @@ import random
 
 import pygame
 
-from entity import Entity
+from entity import Entity, is_collision
 
 TITLE = "Breakout"
 
@@ -30,6 +30,7 @@ BALL_X = WINDOW_WIDTH / 2 - BALL_SIZE / 2
 BALL_Y = PLAYER_Y - BALL_SIZE
 BALL_VELOCITY_X = 5
 BALL_VELOCITY_Y = -10
+BALL_SPEED_MODIFIER = 5
 
 BLOCK_WIDTH = 80
 BLOCK_HEIGHT = 20
@@ -128,6 +129,21 @@ def main():
             ball.y = player.y - player.height
         else:
             ball.move(ball_velocity_x, ball_velocity_y)
+
+        if ball.x < left_wall.width:
+            ball.x = left_wall.width
+            ball_velocity_x *= -1
+        if ball.x + ball.width > right_wall.x:
+            ball.x = right_wall.x - ball.width
+            ball_velocity_x *= -1
+        if ball.y < top_wall.y + top_wall.height:
+            ball.y = top_wall.y + top_wall.height
+            ball_velocity_y *= -1
+
+        if is_collision(ball.get_bounding_box(), player.get_bounding_box()):
+            ball_velocity_x *= 1
+            ball_velocity_y *= -1
+            ball.y = player.y - ball.width
 
         screen.fill(BLACK)
         player.render(screen)
