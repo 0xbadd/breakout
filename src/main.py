@@ -9,12 +9,12 @@ from game import (
     handle_player_collisions,
     init_blocks,
     init_walls,
+    render_game,
 )
 from velocity import Velocity
 
 TITLE = "Breakout"
 
-BLACK = (0, 0, 0)
 RED = (200, 72, 72)
 
 WINDOW_WIDTH = 800
@@ -33,8 +33,6 @@ BALL_VELOCITY_X = 5
 BALL_VELOCITY_Y = -10
 BALL_SPEED_MODIFIER = 5
 
-WALL_SIZE = 40
-
 FPS = 60
 
 
@@ -45,12 +43,15 @@ def main():
     pygame.display.set_caption(TITLE)
 
     player = Entity(PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT, RED)
-
     ball = Entity(BALL_X, BALL_Y, BALL_SIZE, BALL_SIZE, RED, Velocity())
-
     walls = init_walls()
-
     blocks = init_blocks()
+
+    entities = []
+    entities.append(player)
+    entities.append(ball)
+    entities.extend(walls)
+    entities.extend(blocks)
 
     running = True
     clock = pygame.time.Clock()
@@ -88,14 +89,7 @@ def main():
         handle_player_collisions(player, walls)
         handle_ball_collisions(ball, player, walls)
 
-        screen.fill(BLACK)
-        player.render(screen)
-        ball.render(screen)
-        for block in blocks:
-            block.render(screen)
-        for wall in walls:
-            wall.render(screen)
-        pygame.display.flip()
+        render_game(screen, entities)
 
         clock.tick(FPS)
 

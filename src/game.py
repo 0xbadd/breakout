@@ -1,8 +1,11 @@
+import pygame
+
 from entity import Entity, is_collision
 
 WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 600
 
+BLACK = (0, 0, 0)
 GREY = (142, 142, 142)
 RED = (200, 72, 72)
 ORANGE = (198, 108, 58)
@@ -17,6 +20,13 @@ NUM_BLOCKS_X = 9
 NUM_BLOCKS_Y = 6
 
 WALL_SIZE = 40
+
+
+def render_game(screen, entities):
+    screen.fill(BLACK)
+    for entity in entities:
+        entity.render(screen)
+    pygame.display.flip()
 
 
 def handle_player_collisions(player, walls):
