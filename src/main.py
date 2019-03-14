@@ -1,5 +1,7 @@
 import pygame
 
+from entity import Entity
+
 TITLE = "Breakout"
 
 BLACK = (0, 0, 0)
@@ -10,8 +12,8 @@ WINDOW_HEIGHT = 600
 
 PLAYER_WIDTH = 100
 PLAYER_HEIGHT = 20
-PLAYER_STARTING_X = WINDOW_WIDTH / 2 - PLAYER_WIDTH / 2
-PLAYER_STARTING_Y = 550
+PLAYER_X = WINDOW_WIDTH / 2 - PLAYER_WIDTH / 2
+PLAYER_Y = 550
 PLAYER_VELOCITY = 10
 
 
@@ -24,9 +26,9 @@ def main():
     running = True
     clock = pygame.time.Clock()
 
-    player_x = PLAYER_STARTING_X
-    player_y = PLAYER_STARTING_Y
     vel = PLAYER_VELOCITY
+
+    player = Entity(PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT, RED)
 
     while running:
         for event in pygame.event.get():
@@ -39,14 +41,12 @@ def main():
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_LEFT]:
-            player_x -= vel
+            player.x -= vel
         if keys[pygame.K_RIGHT]:
-            player_x += vel
+            player.x += vel
 
         screen.fill(BLACK)
-        pygame.draw.rect(
-            screen, RED, pygame.Rect(player_x, player_y, PLAYER_WIDTH, PLAYER_HEIGHT)
-        )
+        player.render(screen)
         pygame.display.flip()
         clock.tick(60)
 
