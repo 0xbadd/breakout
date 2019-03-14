@@ -1,5 +1,9 @@
 from entity import Entity, is_collision
 
+WINDOW_WIDTH = 800
+WINDOW_HEIGHT = 600
+
+GREY = (142, 142, 142)
 RED = (200, 72, 72)
 ORANGE = (198, 108, 58)
 BROWN = (180, 122, 48)
@@ -44,6 +48,20 @@ def handle_ball_collisions(ball, player, walls):
         ball.velocity.x *= 1
         ball.velocity.y *= -1
         ball.y = player.y - ball.width
+
+
+def init_walls():
+    walls = []
+    left_wall = Entity(0, 50, WALL_SIZE, WINDOW_HEIGHT - 80, GREY)
+    right_wall = Entity(
+        WINDOW_WIDTH - WALL_SIZE, 50, WALL_SIZE, WINDOW_HEIGHT - 80, GREY
+    )
+    top_wall = Entity(0, 50, WINDOW_WIDTH, WALL_SIZE, GREY)
+    walls.append(left_wall)
+    walls.append(right_wall)
+    walls.append(top_wall)
+
+    return walls
 
 
 def init_blocks():

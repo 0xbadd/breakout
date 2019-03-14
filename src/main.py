@@ -3,14 +3,18 @@ import random
 
 import pygame
 
-from entity import Entity, is_collision
-from game import handle_ball_collisions, handle_player_collisions, init_blocks
+from entity import Entity
+from game import (
+    handle_ball_collisions,
+    handle_player_collisions,
+    init_blocks,
+    init_walls,
+)
 from velocity import Velocity
 
 TITLE = "Breakout"
 
 BLACK = (0, 0, 0)
-GREY = (142, 142, 142)
 RED = (200, 72, 72)
 
 WINDOW_WIDTH = 800
@@ -44,15 +48,7 @@ def main():
 
     ball = Entity(BALL_X, BALL_Y, BALL_SIZE, BALL_SIZE, RED, Velocity())
 
-    walls = []
-    left_wall = Entity(0, 50, WALL_SIZE, WINDOW_HEIGHT - 80, GREY)
-    right_wall = Entity(
-        WINDOW_WIDTH - WALL_SIZE, 50, WALL_SIZE, WINDOW_HEIGHT - 80, GREY
-    )
-    top_wall = Entity(0, 50, WINDOW_WIDTH, WALL_SIZE, GREY)
-    walls.append(left_wall)
-    walls.append(right_wall)
-    walls.append(top_wall)
+    walls = init_walls()
 
     blocks = init_blocks()
 
