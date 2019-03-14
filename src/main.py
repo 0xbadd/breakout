@@ -4,6 +4,7 @@ import random
 import pygame
 
 from entity import Entity, is_collision
+from game import init_blocks
 
 TITLE = "Breakout"
 
@@ -64,33 +65,7 @@ def main():
     walls.append(right_wall)
     walls.append(top_wall)
 
-    blocks = []
-    for row in range(0, NUM_BLOCKS_Y):
-        for col in range(0, NUM_BLOCKS_X):
-            block_x = col * BLOCK_WIDTH
-            block_y = row * BLOCK_HEIGHT
-            block_color = None
-            if row == 0:
-                block_color = RED
-            elif row == 1:
-                block_color = ORANGE
-            elif row == 2:
-                block_color = BROWN
-            elif row == 3:
-                block_color = YELLOW
-            elif row == 4:
-                block_color = GREEN
-            else:
-                block_color = BLUE
-            blocks.append(
-                Entity(
-                    WALL_SIZE + block_x,
-                    WALL_SIZE * 2 + 48 + block_y,
-                    BLOCK_WIDTH,
-                    BLOCK_HEIGHT,
-                    block_color,
-                )
-            )
+    blocks = init_blocks()
 
     running = True
     clock = pygame.time.Clock()
