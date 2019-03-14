@@ -13,3 +13,7 @@ class Entity:
         pygame.draw.rect(
             screen, self.color, pygame.Rect(self.x, self.y, self.width, self.height)
         )
+
+    def move(self, dx, dy):
+        self.x += dx
+        self.y += dy

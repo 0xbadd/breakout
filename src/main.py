@@ -42,11 +42,6 @@ def main():
     screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
     pygame.display.set_caption(TITLE)
 
-    running = True
-    clock = pygame.time.Clock()
-
-    vel = PLAYER_VELOCITY
-
     player = Entity(PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT, RED)
 
     ball = Entity(BALL_X, BALL_Y, BALL_SIZE, BALL_SIZE, RED)
@@ -57,10 +52,10 @@ def main():
         WINDOW_WIDTH - WALL_SIZE, 50, WALL_SIZE, WINDOW_HEIGHT - 80, GREY
     )
     top_wall = Entity(0, 50, WINDOW_WIDTH, WALL_SIZE, GREY)
-
     walls.append(left_wall)
     walls.append(right_wall)
     walls.append(top_wall)
+
     blocks = []
     for row in range(0, NUM_BLOCKS_Y):
         for col in range(0, NUM_BLOCKS_X):
@@ -89,6 +84,8 @@ def main():
                 )
             )
 
+    running = True
+    clock = pygame.time.Clock()
     while running:
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
@@ -100,9 +97,14 @@ def main():
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_LEFT]:
-            player.x -= vel
+            player.move(-PLAYER_VELOCITY, 0)
         if keys[pygame.K_RIGHT]:
-            player.x += vel
+            player.move(PLAYER_VELOCITY, 0)
+
+        if player.x < left_wall.width:
+            player.x = left_wall.width
+        if player.x + player.width > right_wall.x:
+            player.x = right_wall.x - player.width
 
         screen.fill(BLACK)
         player.render(screen)
