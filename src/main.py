@@ -5,6 +5,7 @@ import pygame
 
 from entity import Entity, is_collision
 from game import handle_player_collisions, init_blocks
+from velocity import Velocity
 
 TITLE = "Breakout"
 
@@ -41,9 +42,7 @@ def main():
 
     player = Entity(PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT, RED)
 
-    ball = Entity(BALL_X, BALL_Y, BALL_SIZE, BALL_SIZE, RED)
-    ball_velocity_x = 0
-    ball_velocity_y = 0
+    ball = Entity(BALL_X, BALL_Y, BALL_SIZE, BALL_SIZE, RED, Velocity())
 
     walls = []
     left_wall = Entity(0, 50, WALL_SIZE, WINDOW_HEIGHT - 80, GREY)
@@ -73,38 +72,38 @@ def main():
             player.move(-PLAYER_VELOCITY, 0)
         if keys[pygame.K_RIGHT]:
             player.move(PLAYER_VELOCITY, 0)
-        if keys[pygame.K_SPACE] and ball_velocity_x == 0 and ball_velocity_y == 0:
+        if keys[pygame.K_SPACE] and ball.velocity.x == 0 and ball.velocity.y == 0:
             if keys[pygame.K_LEFT]:
-                ball_velocity_x = -BALL_VELOCITY_X
-                ball_velocity_y = BALL_VELOCITY_Y
+                ball.velocity.x = -BALL_VELOCITY_X
+                ball.velocity.y = BALL_VELOCITY_Y
             if keys[pygame.K_RIGHT]:
-                ball_velocity_x = BALL_VELOCITY_X
-                ball_velocity_y = BALL_VELOCITY_Y
+                ball.velocity.x = BALL_VELOCITY_X
+                ball.velocity.y = BALL_VELOCITY_Y
             else:
-                ball_velocity_x = BALL_VELOCITY_X * math.pow(-1, random.randint(1, 3))
-                ball_velocity_y = BALL_VELOCITY_Y
+                ball.velocity.x = BALL_VELOCITY_X * math.pow(-1, random.randint(1, 3))
+                ball.velocity.y = BALL_VELOCITY_Y
 
         handle_player_collisions(player, walls)
 
-        if ball_velocity_x == 0 and ball_velocity_y == 0:
+        if ball.velocity.x == 0 and ball.velocity.y == 0:
             ball.x = player.x + player.width / 2 - ball.width / 2
             ball.y = player.y - player.height
         else:
-            ball.move(ball_velocity_x, ball_velocity_y)
+            ball.move(ball.velocity.x, ball.velocity.y)
 
         if ball.x < left_wall.width:
             ball.x = left_wall.width
-            ball_velocity_x *= -1
+            ball.velocity.x *= -1
         if ball.x + ball.width > right_wall.x:
             ball.x = right_wall.x - ball.width
-            ball_velocity_x *= -1
+            ball.velocity.x *= -1
         if ball.y < top_wall.y + top_wall.height:
             ball.y = top_wall.y + top_wall.height
-            ball_velocity_y *= -1
+            ball.velocity.y *= -1
 
         if is_collision(ball.get_bounding_box(), player.get_bounding_box()):
-            ball_velocity_x *= 1
-            ball_velocity_y *= -1
+            ball.velocity.x *= 1
+            ball.velocity.y *= -1
             ball.y = player.y - ball.width
 
         screen.fill(BLACK)
