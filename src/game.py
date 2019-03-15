@@ -62,17 +62,16 @@ def handle_ball_collisions(ball, player, walls):
 
     if ball.x < left_wall.width:
         ball.x = left_wall.width
-        ball.velocity.x *= -1
+        ball.velocity.reverse_x()
     if ball.x + ball.width > right_wall.x:
         ball.x = right_wall.x - ball.width
-        ball.velocity.x *= -1
+        ball.velocity.reverse_x()
     if ball.y < top_wall.y + top_wall.height:
         ball.y = top_wall.y + top_wall.height
-        ball.velocity.y *= -1
+        ball.velocity.reverse_y()
 
     if is_collision(ball.get_bounding_box(), player.get_bounding_box()):
-        ball.velocity.x *= -1
-        ball.velocity.y *= -1
+        ball.velocity.reverse()
         ball.y = player.y - ball.width
 
 
@@ -89,19 +88,19 @@ def handle_block_collisions(ball, blocks):
     for block in blocks:
         if is_side_collision(left_x, left_y, block.get_bounding_box()):
             ball.y += ball.height
-            ball.velocity.x *= -1
+            ball.velocity.reverse_x()
             blocks.remove(block)
         if is_side_collision(right_x, right_y, block.get_bounding_box()):
             ball.y -= ball.height
-            ball.velocity.x *= -1
+            ball.velocity.reverse_x()
             blocks.remove(block)
         if is_side_collision(top_x, top_y, block.get_bounding_box()):
             ball.y += ball.height
-            ball.velocity.y *= -1
+            ball.velocity.reverse_y()
             blocks.remove(block)
         if is_side_collision(bottom_x, bottom_y, block.get_bounding_box()):
             ball.y -= ball.height
-            ball.velocity.y *= -1
+            ball.velocity.reverse_y()
             blocks.remove(block)
 
 
