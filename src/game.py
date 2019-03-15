@@ -1,6 +1,6 @@
 import pygame
 
-from entity import Entity, is_collision
+from entity import Entity, is_collision, is_side_collision
 
 WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 600
@@ -22,10 +22,14 @@ NUM_BLOCKS_Y = 6
 WALL_SIZE = 40
 
 
-def render_game(screen, entities):
+def render_game(screen, player, ball, blocks, walls):
     screen.fill(BLACK)
-    for entity in entities:
-        entity.render(screen)
+    player.render(screen)
+    ball.render(screen)
+    for block in blocks:
+        block.render(screen)
+    for wall in walls:
+        wall.render(screen)
     pygame.display.flip()
 
 
@@ -70,6 +74,35 @@ def handle_ball_collisions(ball, player, walls):
         ball.velocity.x *= -1
         ball.velocity.y *= -1
         ball.y = player.y - ball.width
+
+
+def handle_block_collisions(ball, blocks):
+    left_x = ball.x
+    left_y = ball.y + ball.height / 2
+    right_x = ball.x + ball.width
+    right_y = ball.y + ball.height / 2
+    top_x = ball.x + ball.width / 2
+    top_y = ball.y
+    bottom_x = ball.x + ball.width / 2
+    bottom_y = ball.y + ball.height
+
+    for block in blocks:
+        if is_side_collision(left_x, left_y, block.get_bounding_box()):
+            ball.y += ball.height
+            ball.velocity.x *= -1
+            blocks.remove(block)
+        if is_side_collision(right_x, right_y, block.get_bounding_box()):
+            ball.y -= ball.height
+            ball.velocity.x *= -1
+            blocks.remove(block)
+        if is_side_collision(top_x, top_y, block.get_bounding_box()):
+            ball.y += ball.height
+            ball.velocity.y *= -1
+            blocks.remove(block)
+        if is_side_collision(bottom_x, bottom_y, block.get_bounding_box()):
+            ball.y -= ball.height
+            ball.velocity.y *= -1
+            blocks.remove(block)
 
 
 def init_walls():

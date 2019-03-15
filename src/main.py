@@ -6,6 +6,7 @@ import pygame
 from entity import Entity
 from game import (
     handle_ball_collisions,
+    handle_block_collisions,
     handle_player_collisions,
     init_blocks,
     init_walls,
@@ -50,12 +51,6 @@ def main():
     walls = init_walls()
     blocks = init_blocks()
 
-    entities = []
-    entities.append(player)
-    entities.append(ball)
-    entities.extend(walls)
-    entities.extend(blocks)
-
     running = True
     clock = pygame.time.Clock()
     while running:
@@ -89,8 +84,9 @@ def main():
         handle_player_collisions(player, walls)
         update_ball(ball, player)
         handle_ball_collisions(ball, player, walls)
+        handle_block_collisions(ball, blocks)
 
-        render_game(screen, entities)
+        render_game(screen, player, ball, blocks, walls)
 
         clock.tick(FPS)
 

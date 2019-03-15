@@ -13,6 +13,9 @@ class Entity:
         if self.velocity:
             self.velocity.owner = self
 
+    def __eq__(self, other):
+        return (self.x, self.y) == (other.x, other.y)
+
     def render(self, screen):
         pygame.draw.rect(
             screen, self.color, pygame.Rect(self.x, self.y, self.width, self.height)
@@ -47,3 +50,12 @@ def is_collision(bbox1, bbox2):
         return False
     else:
         return True
+
+
+def is_side_collision(x1, y1, bbox2):
+    b_x = bbox2[0]
+    b_y = bbox2[1]
+    b_width = bbox2[2]
+    b_height = bbox2[3]
+
+    return x1 >= b_x and x1 <= b_x + b_width and y1 >= b_y and y1 <= b_y + b_height
