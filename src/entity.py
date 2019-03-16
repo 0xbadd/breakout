@@ -1,30 +1,28 @@
+from abc import ABC, abstractmethod
+
 import pygame
 
 
-class Entity:
-    def __init__(self, x, y, width, height, color, velocity=None):
+class Entity(ABC):
+    def __init__(self, x, y, width, height, color):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
         self.color = color
-        self.velocity = velocity
-
-        if self.velocity:
-            self.velocity.owner = self
-
-    def __eq__(self, other):
-        return (self.x, self.y) == (other.x, other.y)
 
     def render(self, screen):
         pygame.draw.rect(
             screen, self.color, pygame.Rect(self.x, self.y, self.width, self.height)
         )
 
+    @abstractmethod
     def move(self):
-        if self.velocity:
-            self.x += self.velocity.x
-            self.y += self.velocity.y
+        pass
+
+    @abstractmethod
+    def update(self):
+        pass
 
     def get_bounding_box(self):
         return (self.x, self.y, self.width, self.height)
