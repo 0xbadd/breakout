@@ -30,7 +30,11 @@ class Player(Entity):
         self.x += self.velocity.x
         self.y += self.velocity.y
 
-    def update(self, walls):
+    def update(self, move, walls):
+        if move:
+            self.velocity.x = move
+        else:
+            self.velocity.x = 0
         self.move()
         self.handle_collisions(walls)
 

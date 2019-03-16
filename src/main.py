@@ -1,6 +1,3 @@
-import math
-import random
-
 import pygame
 
 from ball import BALL_VELOCITY_X, BALL_VELOCITY_Y, Ball
@@ -37,24 +34,8 @@ def main():
         if quit:
             running = False
 
-        if move:
-            player.velocity.x = move
-        else:
-            player.velocity.x = 0
-
-        if launch and not ball.velocity.is_moving():
-            if keys[pygame.K_LEFT]:
-                ball.velocity.x = -BALL_VELOCITY_X
-                ball.velocity.y = BALL_VELOCITY_Y
-            if keys[pygame.K_RIGHT]:
-                ball.velocity.x = BALL_VELOCITY_X
-                ball.velocity.y = BALL_VELOCITY_Y
-            else:
-                ball.velocity.x = BALL_VELOCITY_X * math.pow(-1, random.randint(1, 3))
-                ball.velocity.y = BALL_VELOCITY_Y
-
-        player.update(walls)
-        ball.update(player, blocks, walls)
+        player.update(move, walls)
+        ball.update(launch, player, blocks, walls)
 
         render_game(screen, player, ball, blocks, walls)
 

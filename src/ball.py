@@ -1,3 +1,6 @@
+import math
+import random
+
 from colors import RED
 from entity import Entity, is_collision, is_side_collision
 from player import PLAYER_Y
@@ -25,7 +28,11 @@ class Ball(Entity):
         self.x += self.velocity.x
         self.y += self.velocity.y
 
-    def update(self, player, blocks, walls):
+    def update(self, launch, player, blocks, walls):
+        if launch and not self.velocity.is_moving():
+            self.velocity.x = BALL_VELOCITY_X * math.pow(-1, random.randint(1, 3))
+            self.velocity.y = BALL_VELOCITY_Y
+
         if not self.velocity.is_moving():
             self.x = player.x + player.width / 2 - self.width / 2
             self.y = player.y - player.height
