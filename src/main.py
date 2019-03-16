@@ -9,17 +9,15 @@ from game import render_game
 from input_handlers import handle_keys
 from player import Player
 from wall import init_walls
-from window import WINDOW_HEIGHT, WINDOW_WIDTH
+from window import init_screen
 
-TITLE = "Breakout"
 FPS = 60
 
 
 def main():
     pygame.init()
 
-    screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-    pygame.display.set_caption(TITLE)
+    screen = init_screen()
 
     player = Player()
     ball = Ball()
