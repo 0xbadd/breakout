@@ -9,8 +9,9 @@ NUM_BLOCKS_Y = 6
 
 
 class Block(Entity):
-    def __init__(self, x, y, width, height, color):
+    def __init__(self, x, y, width, height, color, value):
         super().__init__(x, y, width, height, color)
+        self.value = value
 
     def __eq__(self, other):
         return (self.x, self.y, self.width, self.height) == (
@@ -34,18 +35,25 @@ def init_blocks():
             block_x = col * BLOCK_WIDTH
             block_y = row * BLOCK_HEIGHT
             block_color = None
+            value = None
             if row == 0:
                 block_color = RED
+                value = 7
             elif row == 1:
                 block_color = ORANGE
+                value = 5
             elif row == 2:
                 block_color = BROWN
+                value = 4
             elif row == 3:
                 block_color = YELLOW
+                value = 3
             elif row == 4:
                 block_color = GREEN
+                value = 2
             else:
                 block_color = BLUE
+                value = 1
             blocks.append(
                 Block(
                     WALL_SIZE + block_x,
@@ -53,6 +61,7 @@ def init_blocks():
                     BLOCK_WIDTH,
                     BLOCK_HEIGHT,
                     block_color,
+                    value,
                 )
             )
     return blocks

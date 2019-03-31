@@ -39,12 +39,12 @@ class Ball(Entity):
         else:
             self.move()
 
-        self.handle_collisions(player, blocks, walls)
+        return self._handle_collisions(player, blocks, walls)
 
-    def handle_collisions(self, player, blocks, walls):
+    def _handle_collisions(self, player, blocks, walls):
         self._handle_wall_collisions(walls)
         self._handle_player_collisions(player)
-        self._handle_block_collisions(blocks)
+        return self._handle_block_collisions(blocks)
 
     def _handle_player_collisions(self, player):
         if is_collision(self.get_bounding_box(), player.get_bounding_box()):
@@ -81,15 +81,20 @@ class Ball(Entity):
                 self.y += self.height
                 self.velocity.reverse_x()
                 blocks.remove(block)
-            if is_side_collision(right_x, right_y, block.get_bounding_box()):
+                return block.value
+            elif is_side_collision(right_x, right_y, block.get_bounding_box()):
                 self.y -= self.height
                 self.velocity.reverse_x()
                 blocks.remove(block)
-            if is_side_collision(top_x, top_y, block.get_bounding_box()):
+                return block.value
+            elif is_side_collision(top_x, top_y, block.get_bounding_box()):
                 self.y += self.height
                 self.velocity.reverse_y()
                 blocks.remove(block)
-            if is_side_collision(bottom_x, bottom_y, block.get_bounding_box()):
+                return block.value
+            elif is_side_collision(bottom_x, bottom_y, block.get_bounding_box()):
                 self.y -= self.height
                 self.velocity.reverse_y()
                 blocks.remove(block)
+                return block.value
+        return 0
