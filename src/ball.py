@@ -5,7 +5,7 @@ from colors import RED
 from entity import Entity, is_collision, is_side_collision
 from player import PLAYER_Y
 from velocity import Velocity
-from window import WINDOW_WIDTH
+from window import WINDOW_HEIGHT, WINDOW_WIDTH
 
 BALL_SIZE = 20
 BALL_X = WINDOW_WIDTH / 2 - BALL_SIZE / 2
@@ -98,3 +98,9 @@ class Ball(Entity):
                 blocks.remove(block)
                 return block.value
         return 0
+
+    def _handle_loss_collisions(self):
+        bottom_y = self.y + self.height
+
+        if bottom_y > WINDOW_HEIGHT:
+            return {"loss": True}
