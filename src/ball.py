@@ -81,22 +81,22 @@ class Ball(Entity):
                 self.y += self.height
                 self.velocity.reverse_x()
                 blocks.remove(block)
-                return block.value
+                return {"points": block.value}
             elif is_side_collision(right_x, right_y, block.get_bounding_box()):
                 self.y -= self.height
                 self.velocity.reverse_x()
                 blocks.remove(block)
-                return block.value
+                return {"points": block.value}
             elif is_side_collision(top_x, top_y, block.get_bounding_box()):
                 self.y += self.height
                 self.velocity.reverse_y()
                 blocks.remove(block)
-                return block.value
+                return {"points": block.value}
             elif is_side_collision(bottom_x, bottom_y, block.get_bounding_box()):
                 self.y -= self.height
                 self.velocity.reverse_y()
                 blocks.remove(block)
-                return block.value
+                return {"points": block.value}
         return 0
 
     def _handle_loss_collisions(self):
