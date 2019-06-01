@@ -40,6 +40,15 @@ class Game:
         if loss:
             self.lives -= 1
 
+            if self.lives > 0:
+                self.player = Player()
+                self.ball = Ball()
+                return {"lost": False}
+            else:
+                return {"lost": True}
+
+        return {}
+
     def render(self, screen):
         screen.fill(BLACK)
 
@@ -52,6 +61,8 @@ class Game:
 
         score_text = get_rendered_text(self.font, FONT_SIZE, GREY, str(self.score))
         lives_text = get_rendered_text(self.font, FONT_SIZE, GREY, str(self.lives))
+
         screen.blit(score_text, (SCORE_X, SCORE_Y))
         screen.blit(lives_text, (LIVES_X, LIVES_Y))
+
         pygame.display.flip()

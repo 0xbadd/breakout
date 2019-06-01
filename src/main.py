@@ -18,14 +18,21 @@ def main():
     while running:
         keys = pygame.key.get_pressed()
         action = handle_keys(keys)
+        results = {}
 
         quit = action.get("quit")
 
         if quit:
             running = False
 
-        game.update(action)
-        game.render(screen)
+        results = game.update(action)
+
+        lost = results.get("lost")
+
+        if lost:
+            game = Game()
+        else:
+            game.render(screen)
 
         clock.tick(FPS)
 
