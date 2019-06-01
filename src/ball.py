@@ -42,9 +42,14 @@ class Ball(Entity):
         return self._handle_collisions(player, blocks, walls)
 
     def _handle_collisions(self, player, blocks, walls):
+        results = {}
+
         self._handle_wall_collisions(walls)
         self._handle_player_collisions(player)
-        return self._handle_block_collisions(blocks)
+        results.update(self._handle_block_collisions(blocks))
+        results.update(self._handle_loss_collisions())
+
+        return results
 
     def _handle_player_collisions(self, player):
         if is_collision(self.get_bounding_box(), player.get_bounding_box()):
@@ -97,10 +102,12 @@ class Ball(Entity):
                 self.velocity.reverse_y()
                 blocks.remove(block)
                 return {"points": block.value}
-        return 0
+        return {"points": 0}
 
     def _handle_loss_collisions(self):
         bottom_y = self.y + self.height
 
         if bottom_y > WINDOW_HEIGHT:
             return {"loss": True}
+        else:
+            return {"loss": False}

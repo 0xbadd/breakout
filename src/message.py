@@ -6,6 +6,8 @@ FONT = "Square"
 FONT_SIZE = 30
 SCORE_X = WINDOW_WIDTH / 4
 SCORE_Y = 10
+LIVES_Y = 10
+LIVES_X = SCORE_X * 3
 
 
 def get_rendered_text(used_font, size, color, message):
