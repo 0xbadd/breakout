@@ -1,10 +1,16 @@
 import pygame
 
-PLAYER_VELOCITY = 10
+from player import PLAYER_VELOCITY
+from game_states import GameStates
 
 
-def handle_keys(keys):
-    return handle_player_keys(keys)
+def handle_keys(keys, game_state):
+    if game_state == GameStates.MAIN_MENU:
+        return handle_main_menu(keys)
+    if game_state == GameStates.PLAYING:
+        return handle_player_keys(keys)
+
+    return {}
 
 
 def handle_player_keys(keys):
@@ -25,10 +31,13 @@ def handle_player_keys(keys):
     else:
         return {"move": 0}
 
+    return {}
+
+
 def handle_main_menu(key):
     if key[pygame.K_1]:
-        return {'new_game': True}
+        return {"new_game": True}
     elif key[pygame.K_2] or key[pygame.K_ESCAPE]:
-        return {'exit': True}
+        return {"exit": True}
 
     return {}
