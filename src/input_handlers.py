@@ -24,3 +24,11 @@ def handle_player_keys(keys):
         return {"move": PLAYER_VELOCITY}
     else:
         return {"move": 0}
+
+def handle_main_menu(key):
+    if key[pygame.K_1]:
+        return {'new_game': True}
+    elif key[pygame.K_2] or key[pygame.K_ESCAPE]:
+        return {'exit': True}
+
+    return {}
