@@ -6,7 +6,7 @@ from game_states import GameStates
 
 def handle_keys(keys, game_state):
     if game_state == GameStates.MAIN_MENU:
-        return handle_main_menu(keys)
+        return handle_main_menu()
     if game_state == GameStates.PLAYING:
         return handle_player_keys(keys)
 
@@ -34,10 +34,14 @@ def handle_player_keys(keys):
     return {}
 
 
-def handle_main_menu(key):
-    if key[pygame.K_1]:
-        return {"new_game": True}
-    elif key[pygame.K_2] or key[pygame.K_ESCAPE]:
-        return {"exit": True}
+def handle_main_menu():
+    for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_1:
+                return {"new_game": True}
+            if event.key == pygame.K_ESCAPE or event.key == pygame.K_2:
+                return {"quit": True}
+        elif event.type == pygame.QUIT:
+            return {"quit": True}
 
     return {}

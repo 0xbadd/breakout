@@ -19,23 +19,19 @@ def main():
     clock = pygame.time.Clock()
     while running:
         keys = pygame.key.get_pressed()
-        action = handle_keys(keys)
+        action = handle_keys(keys, game_state)
+
+        quit = action.get("quit")
+
+        if quit:
+            running = False
 
         if game_state == GameStates.MAIN_MENU:
             new_game = action.get("new_game")
-            quit = action.get("quit")
 
             if new_game:
                 game_state = GameStates.PLAYING
-
-            if quit:
-                running = False
         elif game_state == GameStates.PLAYING:
-            quit = action.get("quit")
-
-            if quit:
-                running = False
-
             results = game.update(action)
 
             lost = results.get("lost")

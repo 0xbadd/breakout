@@ -3,6 +3,7 @@ import pygame
 from ball import Ball
 from block import init_blocks
 from colors import BLACK, GREY
+from game_states import GameStates
 from message import (
     FONT,
     FONT_SIZE,
@@ -49,7 +50,7 @@ class Game:
 
         return {}
 
-    def render(self, screen):
+    def render(self, screen, game_state):
         screen.fill(BLACK)
 
         self.player.render(screen)
@@ -64,5 +65,14 @@ class Game:
 
         screen.blit(score_text, (SCORE_X, SCORE_Y))
         screen.blit(lives_text, (LIVES_X, LIVES_Y))
+
+        if game_state == GameStates.MAIN_MENU:
+            title_text = get_rendered_text(self.font, 100, BLACK, "BREAKOUT")
+            menu_text_1 = get_rendered_text(self.font, 50, GREY, "1. Play game")
+            menu_text_2 = get_rendered_text(self.font, 50, GREY, "2. Exit")
+
+            screen.blit(title_text, (210, 150))
+            screen.blit(menu_text_1, (250, 270))
+            screen.blit(menu_text_2, (250, 315))
 
         pygame.display.flip()
