@@ -26,10 +26,12 @@ def main():
         if quit:
             running = False
 
-        if game_state == GameStates.MAIN_MENU:
+        if game_state == GameStates.MAIN_MENU or game_state == GameStates.GAME_OVER:
             new_game = action.get("new_game")
 
             if new_game:
+                if game_state == GameStates.GAME_OVER:
+                    game = Game()
                 game_state = GameStates.PLAYING
         elif game_state == GameStates.PLAYING:
             results = game.update(action)
@@ -37,7 +39,7 @@ def main():
             lost = results.get("lost")
 
             if lost:
-                game = Game()
+                game_state = GameStates.GAME_OVER
 
         game.render(screen, game_state)
 

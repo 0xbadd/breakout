@@ -5,8 +5,8 @@ from game_states import GameStates
 
 
 def handle_keys(keys, game_state):
-    if game_state == GameStates.MAIN_MENU:
-        return handle_main_menu()
+    if game_state == GameStates.MAIN_MENU or game_state == GameStates.GAME_OVER:
+        return handle_menu()
     if game_state == GameStates.PLAYING:
         return handle_player_keys(keys)
 
@@ -34,7 +34,7 @@ def handle_player_keys(keys):
     return {}
 
 
-def handle_main_menu():
+def handle_menu():
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_1:

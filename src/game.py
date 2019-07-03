@@ -75,4 +75,13 @@ class Game:
             screen.blit(menu_text_1, (250, 270))
             screen.blit(menu_text_2, (250, 315))
 
+        if game_state == GameStates.GAME_OVER:
+            title_text = get_rendered_text(self.font, 100, GREY, "GAME OVER")
+            menu_text_1 = get_rendered_text(self.font, 50, GREY, "1. Play again")
+            menu_text_2 = get_rendered_text(self.font, 50, GREY, "2. Exit")
+
+            screen.blit(title_text, (210, 150))
+            screen.blit(menu_text_1, (250, 270))
+            screen.blit(menu_text_2, (250, 315))
+
         pygame.display.flip()
