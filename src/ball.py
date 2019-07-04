@@ -13,6 +13,8 @@ BALL_Y = PLAYER_Y - BALL_SIZE
 BALL_VELOCITY_X = 5
 BALL_VELOCITY_Y = -10
 BALL_SPEED_MODIFIER = 5
+MAX_BOUNCE_ANGLE = math.pi / 12  # 75 degrees
+BALL_SPEED = 10
 
 
 class Ball(Entity):
@@ -53,8 +55,19 @@ class Ball(Entity):
 
     def _handle_player_collisions(self, player):
         if is_collision(self.get_bounding_box(), player.get_bounding_box()):
-            self.velocity.reverse()
-            self.y = player.y - self.width
+            self.y = player.y - self.height
+
+            player_middle = player.x + player.width / 2
+            ball_middle = self.x + self.width / 2
+
+            relative_intersect_x = player_middle - ball_middle
+            normalized_relative_intersect_x = relative_intersect_x / (player.width / 2)
+            bounce_angle = normalized_relative_intersect_x * (
+                math.pi / 2 - MAX_BOUNCE_ANGLE
+            )
+
+            self.velocity.x = BALL_SPEED * -math.sin(bounce_angle)
+            self.velocity.y = BALL_SPEED * -math.cos(bounce_angle)
 
     def _handle_wall_collisions(self, walls):
         left_wall = walls[0]
