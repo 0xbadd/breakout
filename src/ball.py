@@ -10,9 +10,6 @@ from window import WINDOW_HEIGHT, WINDOW_WIDTH
 BALL_SIZE = 20
 BALL_X = WINDOW_WIDTH / 2 - BALL_SIZE / 2
 BALL_Y = PLAYER_Y - BALL_SIZE
-BALL_VELOCITY_X = 5
-BALL_VELOCITY_Y = -10
-BALL_SPEED_MODIFIER = 5
 MAX_BOUNCE_ANGLE = math.pi / 12  # 75 degrees
 BALL_SPEED = 10
 
@@ -32,8 +29,8 @@ class Ball(Entity):
 
     def update(self, launch, player, blocks, walls):
         if launch and not self.velocity.is_moving():
-            self.velocity.x = BALL_VELOCITY_X * math.pow(-1, random.randint(1, 3))
-            self.velocity.y = BALL_VELOCITY_Y
+            self.velocity.x = BALL_SPEED * math.pow(-1, random.randint(1, 3))
+            self.velocity.y = -BALL_SPEED
 
         if not self.velocity.is_moving():
             self.x = player.x + player.width / 2 - self.width / 2
